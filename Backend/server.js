@@ -31,7 +31,7 @@ app.use('/api/users', userRoutes);
 
 // Sample test route
 app.get('/', (req, res) => {
-  res.send('Desi Etsy backend is working ✅');
+  res.send('SkillSetu backend is working ✅');
 });
 
 // Start the server
