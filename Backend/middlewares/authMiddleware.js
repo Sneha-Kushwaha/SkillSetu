@@ -1,24 +1,29 @@
+// backend/middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../models/userModel');
 
-// Protect middleware
 const protect = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id).select('-password');
-    next();
-  } catch (error) {
-    res.status(401).json({ message: 'Not authorized' });
+  let token = req.headers.authorization;
+
+  if (token && token.startsWith('Bearer')) {
+    try {
+      token = token.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = await User.findById(decoded.id).select('-password');
+      next();
+    } catch (err) {
+      res.status(401).json({ message: 'Not authorized, token failed' });
+    }
+  } else {
+    res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
 
-// Admin check
 const isAdmin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
+  if (req.user && req.user.role === 'admin') {
     next();
   } else {
-    res.status(403).json({ message: 'Not an admin' });
+    res.status(403).json({ message: 'Access denied. Admin only.' });
   }
 };
 
