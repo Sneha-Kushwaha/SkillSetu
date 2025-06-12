@@ -23,11 +23,11 @@ require('./models/Order');
 
 // Import routes
 const userRoutes = require('./routes/userRoutes');
-const authRoutes = require('./routes/authRoutes'); // ✅ Add this
+const authRoutes = require('./routes/authRoutes'); 
 
 // Use routes
 app.use('/api/users', userRoutes);
-app.use('/api/auth', authRoutes); // ✅ Add this
+app.use('/api/auth', authRoutes);
 
 // Test route
 app.get('/', (req, res) => {
