@@ -1,27 +1,30 @@
 // routes/orderRoutes.js
+
 const express = require('express');
 const router = express.Router();
-
+const { protect } = require('../middlewares/authMiddleware');
 const {
   placeOrder,
-  getMyOrders,
-  getOrderById,
-  updateOrderStatus
+  getUserOrders,
+  getSingleOrder,
+  updateOrderStatus,
+  getAllOrders,
 } = require('../controllers/orderController');
+const { isAdmin } = require('../middlewares/roleMiddleware');
 
-const { protect } = require('../middleware/authMiddleware');
-const { isAdmin } = require('../middleware/roleMiddleware');
-
-// ✅ Customer places an order
+// Customer: Place an order
 router.post('/', protect, placeOrder);
 
-// ✅ Customer views their orders
-router.get('/my-orders', protect, getMyOrders);
+// Customer: Get their own orders
+router.get('/my-orders', protect, getUserOrders);
 
-// ✅ View single order (customer/admin)
-router.get('/:id', protect, getOrderById);
+// Customer: View a single order by ID
+router.get('/:orderId', protect, getSingleOrder);
 
-// ✅ Admin updates order status (e.g., shipped, delivered)
-router.put('/:id/status', protect, isAdmin, updateOrderStatus);
+// Admin: View all orders
+router.get('/', protect, isAdmin, getAllOrders);
+
+// Admin: Update order status
+router.put('/:orderId/status', protect, isAdmin, updateOrderStatus);
 
 module.exports = router;

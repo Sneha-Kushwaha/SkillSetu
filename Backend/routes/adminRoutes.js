@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { approveArtisan, approveProduct, getDashboardStats } = require('../controllers/adminController');
-const { protect, isAdmin } = require('../middlewares/authMiddleware');
+const { adminDashboard } = require('../controllers/adminController');
+const { protect, isAdmin } = require('../middleware/authMiddleware');
 
-router.put('/approve-user/:id', protect, isAdmin, approveArtisan);
-router.put('/approve-product/:id', protect, isAdmin, approveProduct);
-router.get('/dashboard', protect, isAdmin, getDashboardStats);
+// Admin Dashboard Analytics
+router.get('/dashboard', protect, isAdmin, adminDashboard);
 
 module.exports = router;
