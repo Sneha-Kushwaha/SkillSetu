@@ -3,41 +3,39 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const cors = require('cors');
 
-// Load environment variables
+// Load env variables from .env file
 dotenv.config();
 
-// Connect to DB
+// Connect to MongoDB
 connectDB();
 
-// Initialize app
+// Initialize Express app
 const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Parse JSON bodies
 
-// Load models
-require('./models/user');
+// Load models (this makes sure schemas are registered before use)
+require('./models/User');
 require('./models/Product');
 require('./models/Order');
+require('./models/Cart'); // ✅ Add if not already
 
-// Import routes
+// ✅ Import all route files
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
-const paymentRoutes = require('./routes/paymentRoutes'); // ✅ added here
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
-// Use routes
-app.use('/api/users', userRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/payment', paymentRoutes); // ✅ added here
-
-// Test route
-app.get('/', (req, res) => {
-  res.send('SkillSetu backend is working ✅');
-});
-
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+// ✅ Use all routes with base paths
+app.use('/api/users', userRoutes);          // User profile, admin user mgmt
+app.use('/api/auth', authRoutes);           // Login/register
+app.use('/api/products', productRoutes);    // Artisan product CRUD
+app.use('/api/orders', orderRoutes);        // Orders (place/view)
+app.use('/api/cart', cartRoutes);           // Add/view/delete from cart
+app.use('/api/admin', adminRoutes);         // Admin approval & dashboard
+app.use('/api/payment', paymentRoutes);

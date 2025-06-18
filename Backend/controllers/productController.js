@@ -1,64 +1,61 @@
-// Handles product CRUD operations
+const Product = require('../models/Product');
 
-import Product from '../models/Product.js';
-
-// Add new product
-export const createProduct = async (req, res) => {
+// Create new product
+const createProduct = async (req, res) => {
   try {
-    const { name, description, price, category, stock } = req.body;
-    const image = req.file?.filename;
-
-    const newProduct = new Product({ name, description, price, category, stock, image });
+    const newProduct = new Product(req.body);
     await newProduct.save();
-
-    res.status(201).json({ message: "Product created", product: newProduct });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(201).json(newProduct);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Get all products with optional filters
-export const getProducts = async (req, res) => {
+// Get all products
+const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
-    res.status(200).json(products);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const products = await Product.find();
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Get single product by ID
-export const getProductById = async (req, res) => {
+// Get product by ID
+const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found" });
-    res.status(200).json(product);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
 // Update product
-export const updateProduct = async (req, res) => {
+const updateProduct = async (req, res) => {
   try {
-    const updatedData = req.body;
-    const image = req.file?.filename;
-    if (image) updatedData.image = image;
-
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updatedData, { new: true });
-
-    res.status(200).json({ message: "Product updated", product: updatedProduct });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
 // Delete product
-export const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Product deleted" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.json({ message: 'Product deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
+};
+
+module.exports = {
+  createProduct,
+  getAllProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
 };
