@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json()); // Parse JSON bodies
 
 // Load models (this makes sure schemas are registered before use)
-require('./models/User');
+require('./models/user');
 require('./models/Product');
 require('./models/Order');
 require('./models/Cart'); // ✅ Add if not already
