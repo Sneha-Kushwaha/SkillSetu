@@ -94,6 +94,28 @@ const uploadProfilePic = async (req, res) => {
   }
 };
 
+// PUT /api/users/:id/role - Admin changes user role
+const changeUserRole = async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    const allowedRoles = ['customer', 'artisan', 'admin'];
+    if (!allowedRoles.includes(role)) {
+      return res.status(400).json({ message: 'Invalid role' });
+    }
+
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.role = role;
+    await user.save();
+
+    res.status(200).json({ message: 'Role updated', user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 module.exports = {
   getUserProfile,
@@ -102,4 +124,5 @@ module.exports = {
   deleteUser,
   changePassword, 
    uploadProfilePic, 
+   changeUserRole,
 };

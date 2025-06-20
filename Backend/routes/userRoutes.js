@@ -11,6 +11,7 @@ const { registerUser } = require('../controllers/authController');
 const { protect, isAdmin } = require('../middleware/authMiddleware');
 const { changePassword } = require('../controllers/userController');
 const upload = require('../middleware/uploadMiddleware');
+const { changeUserRole } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ const router = express.Router();
 router.post('/register', registerUser);
 
 // ⚠️ Admin-only routes
+router.put('/:id/role', protect, isAdmin, changeUserRole);
 router.get('/', protect, isAdmin, getAllUsers);
 
 // Logged-in user routes
