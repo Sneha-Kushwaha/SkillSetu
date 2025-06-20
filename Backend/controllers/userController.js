@@ -57,9 +57,31 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// PUT /api/users/change-password
+const changePassword = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const { currentPassword, newPassword } = req.body;
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const isMatch = await user.matchPassword(currentPassword);
+    if (!isMatch) return res.status(400).json({ message: 'Current password is incorrect' });
+
+    user.password = newPassword; // This will get hashed in the pre-save hook
+    await user.save();
+
+    res.status(200).json({ message: 'Password changed successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+
 module.exports = {
   getUserProfile,
   updateUserProfile,
   getAllUsers,
   deleteUser,
+  changePassword, 
 };
