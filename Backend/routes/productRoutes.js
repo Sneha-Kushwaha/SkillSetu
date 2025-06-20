@@ -13,8 +13,9 @@ const {
   addProductReview // ✅ New controller for adding reviews
 } = require('../controllers/productController');
 
-const { protect } = require('../middleware/authMiddleware');
-const { isAdmin } = require('../middleware/roleMiddleware');
+
+const { protect, isAdmin } = require('../middleware/authMiddleware');
+
 
 // 📌 Public Routes
 router.get('/', getAllProducts); // Browse products

@@ -7,7 +7,7 @@ const {
   getAllUsers,
   deleteUser
 } = require('../controllers/userController');
-const { protect, isAdmin } = require('../middlewares/authMiddleware');
+const { protect, isAdmin } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 

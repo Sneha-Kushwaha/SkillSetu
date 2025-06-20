@@ -2,7 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middlewares/authMiddleware');
+const { protect } = require('../middleware/authMiddleware');
+
 const {
   placeOrder,
   getUserOrders,
@@ -10,7 +11,7 @@ const {
   updateOrderStatus,
   getAllOrders,
 } = require('../controllers/orderController');
-const { isAdmin } = require('../middlewares/roleMiddleware');
+const { isAdmin } = require('../middleware/authMiddleware'); 
 
 // Customer: Place an order
 router.post('/', protect, placeOrder);
