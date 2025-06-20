@@ -3,12 +3,14 @@ const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
 const User = require('../models/user');
 const { requestPasswordReset, resetPassword } = require('../controllers/authController');
+const { forgotPassword } = require('../controllers/authController');
 
 // Routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/forgot-password', requestPasswordReset);
 router.post('/reset-password', resetPassword);
+router.post('/forgot-password', forgotPassword);
 
 // Test: Reset user
 router.post('/reset-test-user', async (req, res) => {

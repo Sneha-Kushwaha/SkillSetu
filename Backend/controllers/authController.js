@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto'); 
+const sendEmail = require('../utils/sendEmail');
 
 // Register a new user
 const registerUser = async (req, res) => {
@@ -61,6 +62,35 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// Send Email to forgat password
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+
+    user.resetToken = resetToken;
+    user.resetTokenExpire = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+    const html = `
+      <h2>Password Reset Request</h2>
+      <p>Click the link below to reset your password:</p>
+      <a href="${resetUrl}">${resetUrl}</a>
+    `;
+
+    await sendEmail(user.email, 'Password Reset', html);
+
+    res.status(200).json({ message: 'Reset link sent to your email' });
+  } catch (error) {
+    res.status(500).json({ message: 'Email could not be sent', error: error.message });
+  }
+};
+
 // Login existing user
 const loginUser = async (req, res) => {
   try {
@@ -90,4 +120,5 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, requestPasswordReset, resetPassword };
+module.exports = { registerUser, loginUser, requestPasswordReset, resetPassword,  forgotPassword, };
+
