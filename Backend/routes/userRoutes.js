@@ -4,11 +4,13 @@ const {
   getUserProfile,
   updateUserProfile,
   getAllUsers,
-  deleteUser
+  deleteUser,
+  uploadProfilePic,
 } = require('../controllers/userController');
 const { registerUser } = require('../controllers/authController'); 
 const { protect, isAdmin } = require('../middleware/authMiddleware');
 const { changePassword } = require('../controllers/userController');
+const upload = require('../middleware/uploadMiddleware');
 
 const router = express.Router();
 
@@ -23,5 +25,8 @@ router.get('/:id', protect, getUserProfile);
 router.put('/:id', protect, updateUserProfile);
 router.delete('/:id', protect, isAdmin, deleteUser);
 router.put('/change-password', protect, changePassword);
+
+// Upload profile picture
+router.post('/upload-profile-pic', protect, upload.single('profile'), uploadProfilePic);
 
 module.exports = router;

@@ -33,6 +33,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/uploads', express.static('uploads'));
+
 
 // ✅ Start the server
 const PORT = process.env.PORT || 5000;

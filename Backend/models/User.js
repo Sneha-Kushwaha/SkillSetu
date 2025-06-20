@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   isApproved: { type: Boolean, default: false },
   resetToken: String,
   resetTokenExpiry: Date,
+  profilePic: { type: String, default: '' },
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
