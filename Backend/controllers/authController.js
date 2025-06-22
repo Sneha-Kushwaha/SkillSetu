@@ -33,7 +33,7 @@ const requestPasswordReset = async (req, res) => {
     user.resetTokenExpiry = Date.now() + 3600000; // valid for 1 hour
     await user.save();
 
-    // Normally you'd email this token. For now, just return it.
+   
     res.status(200).json({ message: 'Reset token generated', token });
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -1,4 +1,4 @@
-// backend/routes/userRoutes.js
+
 const express = require('express');
 const {
   getUserProfile,
@@ -15,10 +15,10 @@ const { changeUserRole } = require('../controllers/userController');
 
 const router = express.Router();
 
-// ✅ Add register route
+//  Add register route
 router.post('/register', registerUser);
 
-// ⚠️ Admin-only routes
+//  Admin-only routes
 router.put('/:id/role', protect, isAdmin, changeUserRole);
 router.get('/', protect, isAdmin, getAllUsers);
 

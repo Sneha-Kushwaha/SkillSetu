@@ -28,14 +28,14 @@ const productSchema = new mongoose.Schema({
   description: String,
   image: String,
 
-  // 👤 Link to artisan user
+  //  Link to artisan user
   artisan: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
 
-  // ✅ For admin approval
+  //  For admin approval
   isApproved: {
     type: Boolean,
     default: false,
@@ -46,7 +46,7 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
 
-  // ⭐ Review & Rating fields
+  //  Review & Rating fields
   reviews: [reviewSchema],
   rating: {
     type: Number,

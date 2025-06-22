@@ -1,4 +1,3 @@
-// controllers/paymentController.js
 
 import razorpay from '../config/razorpay.js';
 import crypto from 'crypto';
