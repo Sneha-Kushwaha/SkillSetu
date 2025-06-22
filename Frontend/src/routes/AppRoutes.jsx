@@ -8,6 +8,8 @@ import Checkout from "../pages/Checkout";
 import UserDashboard from "../pages/UserDashboard";
 import AdminDashboard from "../pages/AdminDashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Invoice from "./pages/Invoice";
+import UserOrders from "./pages/UserOrders";
 
 const AppRoutes = () => {
   return (
@@ -20,7 +22,15 @@ const AppRoutes = () => {
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/product/:id" element={<ProductDetails />} />
+       <Route path="/invoice" element={<Invoice />} />
+       <Route path="/dashboard/user/orders" element={<UserOrders />} />
 
+
+       
       {/* Protected Routes */}
       <Route path="/dashboard/user" element={<ProtectedRoute role="user"><UserDashboard /></ProtectedRoute>} />
       <Route path="/dashboard/admin" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
