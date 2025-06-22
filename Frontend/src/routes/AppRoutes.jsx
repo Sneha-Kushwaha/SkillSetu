@@ -18,7 +18,9 @@ const AppRoutes = () => {
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
-      
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
       {/* Protected Routes */}
       <Route path="/dashboard/user" element={<ProtectedRoute role="user"><UserDashboard /></ProtectedRoute>} />
       <Route path="/dashboard/admin" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
