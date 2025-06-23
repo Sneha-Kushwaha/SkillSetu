@@ -8,8 +8,9 @@ import Checkout from "../pages/Checkout";
 import UserDashboard from "../pages/UserDashboard";
 import AdminDashboard from "../pages/AdminDashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
-import Invoice from "./pages/Invoice";
-import UserOrders from "./pages/UserOrders";
+import Invoice from "../pages/Invoice";
+import UserOrders from "../pages/UserOrders";
+
 
 const AppRoutes = () => {
   return (

@@ -1,19 +1,19 @@
-// src/App.jsx
-import AppRoutes from "./routes/AppRoutes";
-import { AuthProvider } from "./contexts/AuthContext";
+import { BrowserRouter } from "react-router-dom";
 import { CartProvider } from "./contexts/CartContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <Navbar />
-        <div className="min-h-screen bg-gray-50">
+        <BrowserRouter>
+          <Navbar />
           <AppRoutes />
-        </div>
-        <Footer />
+          <Footer />
+        </BrowserRouter>
       </CartProvider>
     </AuthProvider>
   );
