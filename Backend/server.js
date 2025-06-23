@@ -34,6 +34,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/uploads', express.static('uploads'));
+app.use("/api/orders", require("./routes/order"));
 
 
 // ✅ Start the server
